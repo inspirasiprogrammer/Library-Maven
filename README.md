@@ -10,6 +10,7 @@ Project ini adalah contoh aplikasi desktop sederhana untuk pemula menggunakan:
 
 Fitur yang tersedia:
 
+- Login pengguna berbasis database
 - Tambah data buku
 - Edit data buku
 - Hapus data buku
@@ -42,7 +43,21 @@ Fitur yang tersedia:
   - `searchByJudul(String keyword)`
   - `getNextId()` untuk generate ID buku otomatis.
 
-4. `com.perpustakaan.view.BukuForm`
+4. `com.perpustakaan.model.Pengguna`
+- Tugas: class model/entitas data pengguna.
+- Memiliki field: `idPengguna`, `username`, `password`, `namaLengkap`, `role`.
+
+5. `com.perpustakaan.dao.PenggunaDAO`
+- Tugas: class DAO untuk proses login pengguna.
+- Method utama:
+  - `login(String username, String password)`.
+
+6. `com.perpustakaan.view.LoginForm`
+- Tugas: tampilan login awal aplikasi Swing (`JFrame`).
+- Validasi username dan password.
+- Jika login berhasil, akan membuka `BukuForm`.
+
+7. `com.perpustakaan.view.BukuForm`
 - Tugas: tampilan utama aplikasi Swing (`JFrame`).
 - Berisi form input, tombol CRUD, pencarian, dan tabel data.
 - Semua event tombol ada di class ini.
@@ -50,8 +65,9 @@ Fitur yang tersedia:
 - Tombol `Refresh` untuk memuat ulang seluruh data tabel.
 - Struktur class mengikuti pola NetBeans GUI Builder (`initComponents`, `GEN-BEGIN`, `GEN-END`).
 
-5. `com.perpustakaan.App`
+8. `com.perpustakaan.App`
 - Tugas: `main class` untuk menjalankan aplikasi.
+- Saat ini aplikasi dimulai dari `LoginForm`.
 
 ## Komponen Swing yang Digunakan
 
@@ -93,7 +109,13 @@ SQL ini akan:
 
 - Membuat database `perpustakaan_db`
 - Membuat tabel `buku`
+- Membuat tabel `pengguna`
 - Menambahkan data contoh
+
+Kredensial default login:
+
+- Username: `admin`
+- Password: `admin123`
 
 ## Cara Menjalankan di NetBeans (Java with Maven)
 
