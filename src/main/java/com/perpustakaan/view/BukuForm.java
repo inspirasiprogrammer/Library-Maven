@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
-public class BukuForm extends javax.swing.JFrame {
+public class BukuForm extends javax.swing.JInternalFrame {
 
     private final BukuDAO bukuDAO = new BukuDAO();
 
@@ -16,6 +16,11 @@ public class BukuForm extends javax.swing.JFrame {
 
     public BukuForm() {
         initComponents();
+
+        if (java.beans.Beans.isDesignTime()) {
+            return;
+        }
+
         initTableModel();
         initListeners();
         loadDataTable();
@@ -48,7 +53,11 @@ public class BukuForm extends javax.swing.JFrame {
         scrollPane = new javax.swing.JScrollPane();
         tableBuku = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
         setTitle("CRUD Data Buku Perpustakaan");
 
         lblId.setText("ID Buku");
@@ -245,7 +254,6 @@ public class BukuForm extends javax.swing.JFrame {
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
