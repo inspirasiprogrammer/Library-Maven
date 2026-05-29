@@ -1,110 +1,67 @@
-# Aplikasi CRUD Data Buku Perpustakaan (Java Maven + Swing + JDBC + MySQL)
+# Library Maven
 
-Project ini adalah contoh aplikasi desktop sederhana untuk pemula menggunakan:
+Aplikasi desktop manajemen data buku perpustakaan berbasis Java, Maven, Swing, JDBC, dan MySQL.
 
-- Java
-- Java with Maven
-- Java Swing (`JFrame`)
-- JDBC
-- MySQL
+## Project Description
 
-Fitur yang tersedia:
+Library Maven adalah aplikasi desktop untuk operasi dasar perpustakaan:
+- login pengguna,
+- manajemen data buku (CRUD),
+- pencarian buku berdasarkan judul,
+- dashboard internal.
 
-- Login pengguna berbasis database
-- Dashboard menu utama berbasis menubar setelah login
-- Tambah data buku
-- Edit data buku
-- Hapus data buku
-- Tampilkan data buku di `JTable`
-- Cari data buku berdasarkan judul
-- Refresh tabel data buku
-- Reset form
-- Validasi input kosong
-- Klik baris `JTable` menampilkan data ke form
-- Pesan sukses/gagal menggunakan `JOptionPane`
-- ID Buku otomatis (format: B001, B002, dst)
+Project ini menggunakan pola sederhana berbasis DAO dan cocok sebagai baseline internal system untuk skala kecil sampai menengah.
 
-## Struktur Class
+## Tech Stack
 
-1. `com.perpustakaan.config.DatabaseConnection`
-- Tugas: membuat koneksi JDBC ke MySQL.
-- Konfigurasi dibaca dari file `src/main/resources/db.properties`.
+| Komponen | Teknologi |
+|---|---|
+| Language | Java (source/target 17) |
+| Build Tool | Maven |
+| UI | Java Swing |
+| Data Access | JDBC |
+| Database | MySQL |
+| Driver | mysql-connector-j 8.4.0 |
+| IDE | Apache NetBeans |
 
-2. `com.perpustakaan.model.Buku`
-- Tugas: class model/entitas data buku.
-- Memiliki field: `idBuku`, `judulBuku`, `penulis`, `stok`.
+## Project Structure
 
-3. `com.perpustakaan.dao.BukuDAO`
-- Tugas: class DAO untuk operasi CRUD database.
-- Method utama:
-  - `insert(Buku buku)`
-  - `update(Buku buku)`
-  - `delete(String idBuku)`
-  - `getAll()`
-  - `searchByJudul(String keyword)`
-  - `getNextId()` untuk generate ID buku otomatis.
+```text
+Library-Maven/
+|-- database/
+|   `-- library_maven.sql
+|-- src/
+|   `-- main/
+|       |-- java/com/perpustakaan/
+|       |   |-- App.java
+|       |   |-- config/
+|       |   |-- dao/
+|       |   |-- model/
+|       |   `-- view/
+|       `-- resources/
+|           `-- db.properties
+|-- pom.xml
+|-- README.md
+`-- TECHNICAL_DOCUMENTATION.md
+```
 
-4. `com.perpustakaan.model.Pengguna`
-- Tugas: class model/entitas data pengguna.
-- Memiliki field: `idPengguna`, `username`, `password`, `namaLengkap`, `role`.
+## Installation
 
-5. `com.perpustakaan.dao.PenggunaDAO`
-- Tugas: class DAO untuk proses login pengguna.
-- Method utama:
-  - `login(String username, String password)`.
+1. Install JDK 17+.
+2. Install Apache NetBeans (Maven support).
+3. Install MySQL Server.
+4. Pastikan user database memiliki hak akses ke schema target.
 
-6. `com.perpustakaan.view.LoginForm`
-- Tugas: tampilan login awal aplikasi Swing (`JFrame`).
-- Validasi username dan password.
-- Jika login berhasil, akan membuka `DashboardForm`.
+## Setup
 
-7. `com.perpustakaan.view.DashboardForm`
-- Tugas: menu dashboard utama aplikasi (`JFrame`) yang bisa didesain via NetBeans.
-- Menggunakan `JMenuBar` sebagai navigasi utama.
-- Membuka form fitur sebagai child form di area `JDesktopPane`.
-- Menyediakan menu `Data Buku`, `Logout`, dan `Keluar`.
+1. Clone repository.
+2. Jalankan SQL bootstrap:
 
-8. `com.perpustakaan.view.BukuForm`
-- Tugas: tampilan data buku Swing sebagai child form (`JInternalFrame`).
-- Berisi form input, tombol CRUD, pencarian, dan tabel data.
-- Semua event tombol ada di class ini.
-- ID Buku dibuat otomatis saat form reset.
-- Tombol `Refresh` untuk memuat ulang seluruh data tabel.
-- Struktur class mengikuti pola NetBeans GUI Builder (`initComponents`, `GEN-BEGIN`, `GEN-END`).
+```sql
+SOURCE database/library_maven.sql;
+```
 
-9. `com.perpustakaan.App`
-- Tugas: `main class` untuk menjalankan aplikasi.
-- Saat ini aplikasi dimulai dari `LoginForm`.
-
-File Form Designer untuk NetBeans:
-
-- `src/main/java/com/perpustakaan/view/LoginForm.form`
-- `src/main/java/com/perpustakaan/view/DashboardForm.form`
-- `src/main/java/com/perpustakaan/view/BukuForm.form`
-
-## Komponen Swing yang Digunakan
-
-- `JFrame`
-- `JPanel`
-- `JLabel`
-- `JTextField`
-- `JButton`
-- `JTable`
-- `JScrollPane`
-- `JOptionPane`
-
-Tombol pada form:
-
-- `Simpan`
-- `Edit`
-- `Hapus`
-- `Reset`
-- `Cari`
-- `Refresh`
-
-## File Konfigurasi Database
-
-Edit file `src/main/resources/db.properties` sesuai MySQL Anda:
+3. Konfigurasi koneksi database pada file `src/main/resources/db.properties`:
 
 ```properties
 db.url=jdbc:mysql://localhost:3306/perpustakaan_db?useSSL=false&serverTimezone=Asia/Jakarta
@@ -112,50 +69,74 @@ db.username=root
 db.password=
 ```
 
-## SQL Database
+4. Buka project di NetBeans via `File > Open Project`.
 
-Jalankan file SQL berikut di MySQL:
+## Running
 
-- `database/library_maven.sql`
+### Menjalankan dari NetBeans
+1. Klik kanan project.
+2. Pilih `Clean and Build`.
+3. Pilih `Run`.
 
-SQL ini akan:
+### Menjalankan dari Maven CLI
 
-- Membuat database `perpustakaan_db`
-- Membuat tabel `buku`
-- Membuat tabel `pengguna`
-- Menambahkan data contoh
+```bash
+mvn clean package
+mvn exec:java
+```
 
-Kredensial default login:
+### Menjalankan dari JAR
+
+```bash
+java -jar target/library-maven-1.0-SNAPSHOT.jar
+```
+
+## Default Credentials
 
 - Username: `admin`
 - Password: `admin123`
 
-## Cara Menjalankan di NetBeans (Java with Maven)
+Penting: ganti kredensial default sebelum penggunaan production.
 
-1. Buka NetBeans.
-2. Pilih menu **File > Open Project**.
-3. Pilih folder project ini: `Library-Maven`.
-4. Pastikan MySQL sudah aktif.
-5. Jalankan SQL `database/library_maven.sql` di MySQL.
-6. Sesuaikan `db.properties` jika username/password MySQL berbeda.
-7. Klik kanan project > **Run**.
-8. Aplikasi `CRUD Data Buku Perpustakaan` akan tampil.
+## Screenshot Placeholder
 
-## Catatan untuk NetBeans JFrame Form (Drag and Drop)
+- Placeholder Login Screen: `docs/images/login-screen.png`
+- Placeholder Dashboard Screen: `docs/images/dashboard-screen.png`
+- Placeholder Buku Form Screen: `docs/images/buku-form-screen.png`
 
-Agar bisa edit UI dengan drag and drop di Form Designer:
+Catatan: folder screenshot belum disertakan dalam repository saat ini.
 
-1. Buat package `com.perpustakaan.view` (jika belum ada).
-2. Buat file baru: **New > Swing GUI Forms > JFrame Form** dengan nama `BukuForm`.
-3. NetBeans akan membuat pasangan file `.java` + `.form`.
-4. Anda bisa memindahkan logika event dari class `BukuForm` pada project ini ke form hasil drag and drop.
+## API Usage
 
-Project ini juga sudah menyertakan file Form Designer:
+Project ini adalah desktop app dan tidak menyediakan REST API publik.
+Kontrak penggunaan internal berbasis method Java:
+- `PenggunaDAO.login(username, password)`
+- `BukuDAO.insert(buku)`
+- `BukuDAO.update(buku)`
+- `BukuDAO.delete(idBuku)`
+- `BukuDAO.getAll()`
+- `BukuDAO.searchByJudul(keyword)`
 
-- `src/main/java/com/perpustakaan/view/BukuForm.form`
+## Contributor Guide
 
-Class `BukuForm.java` juga sudah disiapkan dengan pola generated NetBeans sehingga lebih mudah dipelihara saat edit drag and drop.
+1. Gunakan branch terpisah per fitur/perbaikan.
+2. Pastikan build sukses sebelum merge.
+3. Tambahkan test saat menambah business logic.
+4. Hindari perubahan pada blok generated code NetBeans tanpa kebutuhan jelas.
+5. Dokumentasikan perubahan arsitektur pada `TECHNICAL_DOCUMENTATION.md`.
 
-Jika NetBeans menyesuaikan isi `.form` saat pertama kali dibuka, itu normal.
+## Production Notes
 
-Tujuan contoh ini adalah latihan dasar CRUD, jadi kode dibuat sederhana dan mudah dibaca.
+- Hardening keamanan yang wajib sebelum production:
+  - implementasi password hashing,
+  - logging terstruktur,
+  - penghapusan akun default,
+  - test automation.
+
+Lihat dokumentasi lengkap di `TECHNICAL_DOCUMENTATION.md`.
+
+## License
+
+Belum ditentukan.
+
+Jika project ini akan dipublikasikan eksternal, tambahkan file LICENSE dengan lisensi resmi (misalnya MIT/Apache-2.0/proprietary internal).
