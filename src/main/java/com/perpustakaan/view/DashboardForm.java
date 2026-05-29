@@ -29,6 +29,7 @@ public class DashboardForm extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         menuMaster = new javax.swing.JMenu();
         menuDataBuku = new javax.swing.JMenuItem();
+        menuDataMember = new javax.swing.JMenuItem();
         menuSession = new javax.swing.JMenu();
         menuLogout = new javax.swing.JMenuItem();
         menuKeluar = new javax.swing.JMenuItem();
@@ -74,6 +75,14 @@ public class DashboardForm extends javax.swing.JFrame {
             }
         });
         menuMaster.add(menuDataBuku);
+
+        menuDataMember.setText("Data Member");
+        menuDataMember.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuDataMemberActionPerformed(evt);
+            }
+        });
+        menuMaster.add(menuDataMember);
 
         menuBar.add(menuMaster);
 
@@ -126,6 +135,10 @@ public class DashboardForm extends javax.swing.JFrame {
         onKeluar(evt);
     }//GEN-LAST:event_menuKeluarActionPerformed
 
+    private void menuDataMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDataMemberActionPerformed
+        onOpenMember(evt);
+    }//GEN-LAST:event_menuDataMemberActionPerformed
+
     private void initDataPengguna() {
         if (pengguna == null) {
             lblStatus.setText("Selamat datang.");
@@ -156,6 +169,23 @@ public class DashboardForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Form buku sudah dibuka.");
         }
     }
+    
+    private void onOpenMember(ActionEvent event) {
+        MemberForm memberForm = findOpenMemberForm();
+        if (memberForm == null) {
+            memberForm = new MemberForm();
+            desktopPane.add(memberForm);
+            memberForm.setVisible(true);
+        }
+
+        try {
+            memberForm.setIcon(false);
+            memberForm.setSelected(true);
+            memberForm.toFront();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Form member sudah dibuka.");
+        }
+    }
 
     private BukuForm findOpenBukuForm() {
         for (JInternalFrame frame : desktopPane.getAllFrames()) {
@@ -166,6 +196,15 @@ public class DashboardForm extends javax.swing.JFrame {
         return null;
     }
 
+    private MemberForm findOpenMemberForm() {
+        for (JInternalFrame frame : desktopPane.getAllFrames()) {
+            if (frame instanceof MemberForm && !frame.isClosed()) {
+                return (MemberForm) frame;
+            }
+        }
+        return null;
+    }
+    
     private void onLogout(ActionEvent event) {
         int confirm = JOptionPane.showConfirmDialog(
                 this,
@@ -200,6 +239,7 @@ public class DashboardForm extends javax.swing.JFrame {
     private javax.swing.JLabel lblWelcome;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem menuDataBuku;
+    private javax.swing.JMenuItem menuDataMember;
     private javax.swing.JMenuItem menuKeluar;
     private javax.swing.JMenuItem menuLogout;
     private javax.swing.JMenu menuMaster;
